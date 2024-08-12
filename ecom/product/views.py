@@ -13,7 +13,7 @@ from django.db.models import Avg
 
 @api_view(['GET'])
 def get_all_products(request):
-   
+   #filer option https://django-filter.readthedocs.io/en/stable/
    filterset = ProductsFilter(request.GET,queryset=Product.objects.all().order_by('id'))
    count = filterset.qs.count()
    resPage = 2
