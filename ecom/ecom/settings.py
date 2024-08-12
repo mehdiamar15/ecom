@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-w0670xo@a+n6p(1&n@v%p76i7wet*hk%soy#+279b&^3k=)@u)'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['195.201.20.128']
 
@@ -58,12 +58,11 @@ MIDDLEWARE = [
 
 #Simple JWT
 REST_FRAMEWORK = {
-    ...
+    
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        ...
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     )
-    ...
+
 }
 
 SIMPLE_JWT = {
