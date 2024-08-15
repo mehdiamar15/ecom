@@ -124,7 +124,7 @@ def create_review(request,pk):
 def delete_review(request,pk):
     user = request.user
     product = get_object_or_404(Product,id=pk)
-   
+    
     review = product.reviews.filter(user=user)
    
  
