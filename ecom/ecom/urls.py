@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path ,include
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-from account.views import CustomTokenObtainPairView  
+from account.views import CustomTokenObtainPairView ,logout_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,6 +25,7 @@ urlpatterns = [
     path('api/', include('account.urls')),
     path('api/token/', CustomTokenObtainPairView.as_view()),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/logout/', logout_view, name="logout"),
 ]
 
 

@@ -47,7 +47,15 @@ class CustomTokenObtainPairView(TokenObtainPairView):
 
         return response
 
+@api_view(['POST'])
+def logout_view(request):
+    response = Response({"detail": "Logged out successfully."}, status=status.HTTP_200_OK)
     
+    # Delete the HttpOnly cookies by setting them with an empty value and expired date
+    response.delete_cookie('access_token')
+    response.delete_cookie('refresh_token')
+    
+    return response
     
 @api_view(['POST'])
 def register(request):
