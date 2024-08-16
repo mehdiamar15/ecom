@@ -3,6 +3,7 @@ from django.shortcuts import render
 # Create your views here.
 from datetime import datetime, timedelta
 from django.shortcuts import get_object_or_404, render
+from django.http import JsonResponse
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from django.contrib.auth.models import User
@@ -10,11 +11,44 @@ from django.contrib.auth.hashers import make_password
 from rest_framework import status
 from .serializers import SingUpSerializer,UserSerializer
 from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.tokens import RefreshToken
 from django.utils.crypto import get_random_string
 from django.core.mail import send_mail
+from rest_framework_simplejwt.views import TokenObtainPairView
+from .serializers import CustomTokenObtainPairSerializer
 # Create your views here.
 
 
+
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
+
+    def post(self, request, *args, **kwargs):
+        response = super().post(request, *args, **kwargs)
+        data = response.data
+        refresh = data['refresh']
+        access = data['access']
+
+        # Set tokens in HttpOnly cookies
+        response.set_cookie(
+            'refresh_token',
+            refresh,
+            httponly=True,
+            secure=False,  # Use secure=True if you're serving over HTTPS
+            samesite='Strict'  # Adjust as needed (Lax or Strict)
+        )
+        response.set_cookie(
+            'access_token',
+            access,
+            httponly=True,
+            secure=False,  # Use secure=True if you're serving over HTTPS
+            samesite='Strict'  # Adjust as needed (Lax or Strict)
+        )
+
+        return response
+
+    
+    
 @api_view(['POST'])
 def register(request):
     data = request.data

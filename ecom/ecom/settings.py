@@ -29,6 +29,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['195.201.20.128']
 
+CSRF_TRUSTED_ORIGINS = [
+    'http://195.201.20.128:8038',
+]
 
 # Application definition
 
@@ -52,6 +55,7 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'account.middleware.JWTAuthenticationMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
